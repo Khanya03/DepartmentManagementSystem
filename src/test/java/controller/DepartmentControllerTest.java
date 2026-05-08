@@ -38,7 +38,8 @@ class DepartmentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(department)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Computer Science"));
+                // name is a CourseName object: {"name": "Computer Science"}, so path is $.name.name
+                .andExpect(jsonPath("$.name.name").value("Computer Science"));
     }
 
     @Test

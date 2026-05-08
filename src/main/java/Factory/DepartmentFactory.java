@@ -1,5 +1,6 @@
 package Factory;
 
+import Domain.CourseName;
 import Domain.Department;
 import Util.Helper;
 
@@ -12,8 +13,10 @@ public class DepartmentFactory {
         String code = Helper.generateDepartmentCode(name);
         if (code == null) return null;
 
+        CourseName courseName = new CourseName(name);
+
         return new Department.Builder()
-                .setName(name)
+                .setName(courseName)
                 .setCode(code)
                 .setBudget(budget)
                 .build();

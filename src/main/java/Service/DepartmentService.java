@@ -1,7 +1,8 @@
 package Service;
 
-import Domain.*;
-import Repository.*;
+import Domain.Department;
+import Repository.DepartmentRepository;
+import Util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,97 +10,43 @@ import java.util.List;
 @Service
 public class DepartmentService implements IDepartmentService {
 
-    private final DepartmentRepository departmentRepository;
-    private final PersonRepository personRepository;
-    private final StudentRepository studentRepository;
-    private final ProfessorRepository professorRepository;
-    private final GraduateStudentRepository graduateStudentRepository;
-    private final AdjunctProfessorRepository adjunctProfessorRepository;
+    private final DepartmentRepository repository;
 
     @Autowired
-    public DepartmentService(DepartmentRepository departmentRepository,
-                             PersonRepository personRepository,
-                             StudentRepository studentRepository,
-                             ProfessorRepository professorRepository,
-                             GraduateStudentRepository graduateStudentRepository,
-                             AdjunctProfessorRepository adjunctProfessorRepository) {
-        this.departmentRepository = departmentRepository;
-        this.personRepository = personRepository;
-        this.studentRepository = studentRepository;
-        this.professorRepository = professorRepository;
-        this.graduateStudentRepository = graduateStudentRepository;
-        this.adjunctProfessorRepository = adjunctProfessorRepository;
+    public DepartmentService(DepartmentRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public Department createDepartment(Department department) {
-        return departmentRepository.save(department);
+    public Department create(Department department) {
+        if (department == null || department.getName() == null || Helper.isNullOrEmpty(department.getName().getName()))
+            return null;
+        if (department.getBudget() < 0) return null;
+        return repository.save(department);
     }
 
     @Override
-    public Department readDepartment(int id) {
-        return departmentRepository.findById(id).orElse(null);
+    public Department read(int id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public Department updateDepartment(Department department) {
-        return departmentRepository.save(department);
+    public Department update(Department department) {
+        if (department == null || department.getId() <= 0) return null;
+        return repository.save(department);
     }
 
     @Override
-    public boolean deleteDepartment(int id) {
-        if (departmentRepository.existsById(id)) {
-            departmentRepository.deleteById(id);
+    public boolean delete(int id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
             return true;
         }
         return false;
     }
 
     @Override
-    public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
-    }
-
-    @Override
-    public Student addStudentToDepartment(int departmentId, Student student) {
-        Department dept = readDepartment(departmentId);
-        if (dept == null) return null;
-        return studentRepository.save(student);
-    }
-
-    @Override
-    public Professor addProfessorToDepartment(int departmentId, Professor professor) {
-        Department dept = readDepartment(departmentId);
-        if (dept == null) return null;
-        return professorRepository.save(professor);
-    }
-
-    @Override
-    public GraduateStudent addGraduateStudentToDepartment(int departmentId, GraduateStudent student) {
-        Department dept = readDepartment(departmentId);
-        if (dept == null) return null;
-        return graduateStudentRepository.save(student);
-    }
-
-    @Override
-    public AdjunctProfessor addAdjunctProfessorToDepartment(int departmentId, AdjunctProfessor professor) {
-        Department dept = readDepartment(departmentId);
-        if (dept == null) return null;
-        return adjunctProfessorRepository.save(professor);
-    }
-
-    @Override
-    public List<Person> getAllMembersOfDepartment(int departmentId) {
-        return personRepository.findAll();
-    }
-
-    @Override
-    public List<Student> getStudentsByDepartment(int departmentId) {
-        return studentRepository.findAll();
-    }
-
-    @Override
-    public List<Professor> getProfessorsByDepartment(int departmentId) {
-        return professorRepository.findAll();
+    public List<Department> getAll() {
+        return repository.findAll();
     }
 }
