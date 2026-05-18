@@ -9,19 +9,19 @@ public abstract class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
-    protected String firstName;
-    protected String lastName;
-    protected String email;
-    protected String phoneNumber;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
-    protected Department department;
+    private Department department;
 
     protected Person() {}
 
-    protected Person(Builder builder) {
+    protected Person(Student.Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -30,7 +30,15 @@ public abstract class Person {
         this.department = builder.department;
     }
 
-    // Getters only (no setters)
+    protected Person(Professor.Builder builder) {
+        this.id = builder.id;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.phoneNumber = builder.phoneNumber;
+        this.department = builder.department;
+    }
+
     public int getId() { return id; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
@@ -42,25 +50,5 @@ public abstract class Person {
     public String toString() {
         return "Person{id=" + id + ", firstName='" + firstName + "', lastName='" + lastName +
                 "', email='" + email + "', phoneNumber='" + phoneNumber + "'}";
-    }
-
-    public static class Builder {
-        protected int id;
-        protected String firstName;
-        protected String lastName;
-        protected String email;
-        protected String phoneNumber;
-        protected Department department;
-
-        public Builder setId(int id) { this.id = id; return this; }
-        public Builder setFirstName(String firstName) { this.firstName = firstName; return this; }
-        public Builder setLastName(String lastName) { this.lastName = lastName; return this; }
-        public Builder setEmail(String email) { this.email = email; return this; }
-        public Builder setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; return this; }
-        public Builder setDepartment(Department department) { this.department = department; return this; }
-
-        public Person build() {
-            throw new UnsupportedOperationException("Use subclass builder");
-        }
     }
 }

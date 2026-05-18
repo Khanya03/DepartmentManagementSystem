@@ -6,7 +6,7 @@ import jakarta.persistence.Embeddable;
 public class CourseName {
     private String name;
 
-    protected CourseName() {}  // for JPA
+    protected CourseName() {}  // Required for JPA
 
     public CourseName(String name) {
         if (name == null || name.isEmpty())

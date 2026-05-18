@@ -9,7 +9,7 @@ public class GraduateStudentFactory {
     public static GraduateStudent createGraduateStudent(String firstName, String lastName, String email, String phoneNumber,
                                                         String studentId, int enrollmentYear, String major,
                                                         String thesisTitle, Professor supervisor) {
-        // Reuse StudentFactory validation via creating a student first? Simpler: validate all.
+        // 1. Validation logic stays exactly the same
         if (Helper.isNullOrEmpty(firstName) || Helper.isNullOrEmpty(lastName) ||
                 Helper.isNullOrEmpty(email) || Helper.isNullOrEmpty(phoneNumber) ||
                 Helper.isNullOrEmpty(studentId) || Helper.isNullOrEmpty(major) ||
@@ -20,16 +20,17 @@ public class GraduateStudentFactory {
         if (!Helper.isValidPhone(phoneNumber)) return null;
         if (enrollmentYear < 1900 || enrollmentYear > 2100) return null;
 
-        return new GraduateStudent.Builder()
+        // 2. Fixed Chain Order with explicit casting at the end
+        return ((GraduateStudent.Builder) new GraduateStudent.Builder()
+                .setThesisTitle(thesisTitle)
+                .setSupervisor(supervisor)
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setStudentId(studentId)
                 .setEnrollmentYear(enrollmentYear)
-                .setMajor(major)
-                .setThesisTitle(thesisTitle)
-                .setSupervisor(supervisor)
+                .setMajor(major))
                 .build();
     }
 }

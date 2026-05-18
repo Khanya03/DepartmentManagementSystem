@@ -32,6 +32,7 @@ public class Department {
         this.members = builder.members;
     }
 
+    // Getters
     public int getId() { return id; }
     public CourseName getName() { return name; }
     public String getCode() { return code; }
@@ -40,9 +41,10 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{id=" + id + ", name=" + name + ", code='" + code + "', budget=" + budget + ", membersCount=" + members.size() + "}";
+        return "Department{id=" + id + ", code='" + code + "', budget=" + budget + "}";
     }
 
+    // Builder
     public static class Builder {
         private int id;
         private CourseName name;

@@ -7,19 +7,14 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("PROFESSOR")
 public class Professor extends Person {
 
-    protected String employeeId;
-    protected String officeNumber;
-    protected boolean tenured;
+    private String employeeId;
+    private String officeNumber;
+    private boolean tenured;
 
     protected Professor() {}
 
-    private Professor(Builder builder) {
-        this.id = builder.id;
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.email = builder.email;
-        this.phoneNumber = builder.phoneNumber;
-        this.department = builder.department;
+    protected Professor(Builder builder) {
+        super(builder);
         this.employeeId = builder.employeeId;
         this.officeNumber = builder.officeNumber;
         this.tenured = builder.tenured;
@@ -31,21 +26,21 @@ public class Professor extends Person {
 
     @Override
     public String toString() {
-        return "Professor{id=" + id + ", firstName='" + firstName + "', lastName='" + lastName +
-                "', email='" + email + "', phoneNumber='" + phoneNumber + "', employeeId='" + employeeId +
+        return "Professor{id=" + getId() + ", firstName='" + getFirstName() + "', lastName='" + getLastName() +
+                "', email='" + getEmail() + "', phoneNumber='" + getPhoneNumber() + "', employeeId='" + employeeId +
                 "', officeNumber='" + officeNumber + "', tenured=" + tenured + "}";
     }
 
     public static class Builder {
-        private int id;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String phoneNumber;
-        private Department department;
-        private String employeeId;
-        private String officeNumber;
-        private boolean tenured;
+        protected int id;
+        protected String firstName;
+        protected String lastName;
+        protected String email;
+        protected String phoneNumber;
+        protected Department department;
+        protected String employeeId;
+        protected String officeNumber;
+        protected boolean tenured;
 
         public Builder setId(int id) { this.id = id; return this; }
         public Builder setFirstName(String firstName) { this.firstName = firstName; return this; }
@@ -57,8 +52,6 @@ public class Professor extends Person {
         public Builder setOfficeNumber(String officeNumber) { this.officeNumber = officeNumber; return this; }
         public Builder setTenured(boolean tenured) { this.tenured = tenured; return this; }
 
-        public Professor build() {
-            return new Professor(this);
-        }
+        public Professor build() { return new Professor(this); }
     }
 }

@@ -7,21 +7,14 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("STUDENT")
 public class Student extends Person {
 
-    protected String studentId;
-    protected int enrollmentYear;
-    protected String major;
+    private String studentId;
+    private int enrollmentYear;
+    private String major;
 
     protected Student() {}
 
-    private Student(Builder builder) {
-        // Set inherited fields directly (protected access)
-        this.id = builder.id;
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.email = builder.email;
-        this.phoneNumber = builder.phoneNumber;
-        this.department = builder.department;
-        // Set Student fields
+    protected Student(Builder builder) {
+        super(builder);
         this.studentId = builder.studentId;
         this.enrollmentYear = builder.enrollmentYear;
         this.major = builder.major;
@@ -33,23 +26,21 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student{id=" + id + ", firstName='" + firstName + "', lastName='" + lastName +
-                "', email='" + email + "', phoneNumber='" + phoneNumber + "', studentId='" + studentId +
+        return "Student{id=" + getId() + ", firstName='" + getFirstName() + "', lastName='" + getLastName() +
+                "', email='" + getEmail() + "', phoneNumber='" + getPhoneNumber() + "', studentId='" + studentId +
                 "', enrollmentYear=" + enrollmentYear + ", major='" + major + "'}";
     }
 
     public static class Builder {
-        // All Person fields
-        private int id;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String phoneNumber;
-        private Department department;
-        // Student fields
-        private String studentId;
-        private int enrollmentYear;
-        private String major;
+        protected int id;
+        protected String firstName;
+        protected String lastName;
+        protected String email;
+        protected String phoneNumber;
+        protected Department department;
+        protected String studentId;
+        protected int enrollmentYear;
+        protected String major;
 
         public Builder setId(int id) { this.id = id; return this; }
         public Builder setFirstName(String firstName) { this.firstName = firstName; return this; }
@@ -61,8 +52,6 @@ public class Student extends Person {
         public Builder setEnrollmentYear(int enrollmentYear) { this.enrollmentYear = enrollmentYear; return this; }
         public Builder setMajor(String major) { this.major = major; return this; }
 
-        public Student build() {
-            return new Student(this);
-        }
+        public Student build() { return new Student(this); }
     }
 }

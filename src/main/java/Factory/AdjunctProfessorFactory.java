@@ -19,16 +19,16 @@ public class AdjunctProfessorFactory {
         if (!Helper.isValidPhone(phoneNumber)) return null;
         if (contractEndDate.isBefore(LocalDate.now())) return null;
 
-        return new AdjunctProfessor.Builder()
+        return ((AdjunctProfessor.Builder) new AdjunctProfessor.Builder()
+                .setContractEndDate(contractEndDate)
+                .setHourlyRate(hourlyRate)
+                .setTenured(false)
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setEmployeeId(employeeId)
-                .setOfficeNumber(officeNumber)
-                .setTenured(false)
-                .setContractEndDate(contractEndDate)
-                .setHourlyRate(hourlyRate)
+                .setOfficeNumber(officeNumber))
                 .build();
     }
 }
